@@ -5,7 +5,7 @@ from fastapi import APIRouter
 from utils import config
 import os
 
-router = APIRouter(prefix="/directory_list", tags=["Kullanıcılar"])
+router = APIRouter(prefix="/directory_list", tags=["Directory List"])
 
 # configuration load
 loadconf = config.Configuration()
@@ -16,9 +16,16 @@ publishfolder = output["publish-path"]
 async def directories():
     dir_list = []
     if not os.path.exists(publishfolder):
-        return {"status": False, "details": "The folder you are looking for could not be found!"}
+        print("The folder you are looking for could not be found !")
+        return {"status": False, "details": "The folder you are looking for could not be found !"}
     else:
-        for lst in os.listdir(publishfolder):
-            dir_list.append(lst)
-        return {"directory_list": dir_list}
+        try:
+            for lst in os.listdir(publishfolder):
+                dir_list.append(lst)
+            return {"directory_list": dir_list}
+
+        except PermissionError:
+            print("Folder permissions prevent viewing the content !")
+            return {"status": False, "details": "Folder permissions prevent viewing the content !"}
+
 

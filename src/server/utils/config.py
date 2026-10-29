@@ -28,6 +28,8 @@ class Configuration:
             return {"status": False, "details": "The path for the folder to be published has not been entered !"}
         if not os.path.exists(publish_path):
             return {"status": False, "details": "The path for the folder to be published does not exist !"}
+        if not os.path.isdir(publish_path):
+            return {"status": False, "details": "This is not a folder !"}
 
         return {"status": True}
 
