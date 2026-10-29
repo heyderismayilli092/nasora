@@ -13,7 +13,6 @@ loadconf = config.Configuration()
 output = loadconf.load()
 publishfolder = output["publish-path"]
 
-
 @router.post("")
 async def downloadfile(
     filename: str = Form(...)
@@ -35,7 +34,6 @@ async def downloadfile(
             filename=filename,
             media_type="application/octet-stream"  # general download type
         )
-
     except PermissionError:
         print("File cannot be downloaded due to permission restrictions !")
         return {"status": False, "details": "File cannot be downloaded due to permission restrictions !"}
