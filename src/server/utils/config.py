@@ -5,15 +5,17 @@ import os
 
 config_file = "config.json"
 
-class Configuration():
-    def load():
+class Configuration:
+    # configuration file load
+    def load(self):
         with open(config_file, "r") as jsondata:
             data = json.load(jsondata)
         server_name = data["nasora"]["server_name"]
         publish_path = data["nasora"]["publish_path"]
         return {"server-name": server_name, "publish-path": publish_path}
 
-    def checkconf():
+    # configuration file check
+    def checkconf(self):
         with open(config_file, "r") as jsondata:
             data = json.load(jsondata)
         server_name = data["nasora"]["server_name"]
