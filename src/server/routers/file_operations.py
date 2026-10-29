@@ -6,14 +6,15 @@ from fastapi.responses import FileResponse
 from utils import config
 import os
 
-router = APIRouter(prefix="/download", tags=["Download"])
+# endpoints
+downloadfile_router = APIRouter(prefix="/download", tags=["Download"])
 
 # configuration load
 loadconf = config.Configuration()
 output = loadconf.load()
 publishfolder = output["publish-path"]
 
-@router.post("")
+@downloadfile_router.post("")
 async def downloadfile(
     filename: str = Form(...)
 ):
@@ -37,4 +38,9 @@ async def downloadfile(
     except PermissionError:
         print("File cannot be downloaded due to permission restrictions !")
         return {"status": False, "details": "File cannot be downloaded due to permission restrictions !"}
+
+
+
+fileoperations_router = APIRouter()
+fileoperations_router.include_router(downloadfile_router)
 
