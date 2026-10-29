@@ -1,5 +1,7 @@
-# POST /download/
-# File download endpoints scaffold
+# File Operations
+# POST /download
+# POST /fileinfo
+
 
 from fastapi import APIRouter, Form
 from fastapi.responses import FileResponse
@@ -16,6 +18,7 @@ output = loadconf.load()
 publishfolder = output["publish-path"]
 
 
+# file download
 @downloadfile_router.post("")
 async def downloadfile(
     filename: str = Form(...)
