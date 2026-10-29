@@ -5,14 +5,17 @@ from fastapi import APIRouter
 from utils import config
 import os
 
-router = APIRouter(prefix="/directory_list", tags=["Directory List"])
+# endpoints
+dirlist_router = APIRouter(prefix="/directory_list", tags=["Directory List"])
 
 # configuration load
 loadconf = config.Configuration()
 output = loadconf.load()
 publishfolder = output["publish-path"]
 
-@router.get('/')
+
+# directory list
+@dirlist_router.get('/')
 async def directories():
     dir_list = []
     if not os.path.exists(publishfolder):
@@ -28,4 +31,9 @@ async def directories():
             print("Folder permissions prevent viewing the content !")
             return {"status": False, "details": "Folder permissions prevent viewing the content !"}
 
+
+
+# main router
+diroperations_router = APIRouter()
+diroperations_router.include_router(dirlist_router)
 
