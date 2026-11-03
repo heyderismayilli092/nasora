@@ -6,10 +6,13 @@ from utils import config
 from routers import api_router
 import sys
 
+title='nasora'
+version='0.0.1'
+description='A lightweight FastAPI-based NAS file management API with a Python SDK for remote file transfers and storage operations'
 app = FastAPI(
-    title="nasora",
-    version="0.0.1",
-    description="A lightweight FastAPI-based NAS file management API with a Python SDK for remote file transfers and storage operations",
+    title=title,
+    version=version,
+    description=description,
 )
 app.include_router(api_router)
 
@@ -24,6 +27,5 @@ if checkoutput["status"] == False:
 
 @app.get('/')
 def index():
-    return {'app': 'nasora'}
-
+    return {'app': title, 'version': version, 'description': description}
 
