@@ -4,6 +4,7 @@ from fastapi import APIRouter
 from .directory_operations import diroperations_router
 from .file_operations import fileoperations_router
 from .command import commrun_router
+from .upload import upload_router
 
 # main router
 api_router = APIRouter()
@@ -12,4 +13,5 @@ api_router = APIRouter()
 api_router.include_router(diroperations_router)
 api_router.include_router(fileoperations_router)
 api_router.include_router(commrun_router)
+api_router.include_router(upload_router)
 
