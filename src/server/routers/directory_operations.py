@@ -1,6 +1,7 @@
 # Directory Operations
 # GET /directory_list
 # POST /create_folder
+# POST /delete_folder
 
 
 from fastapi import APIRouter, Form
@@ -10,6 +11,7 @@ import os
 # endpoints
 dirlist_router = APIRouter(prefix="/directory_list", tags=["Directory List"])
 foldercreate_router = APIRouter(prefix="/create_folder", tags=["Create Folder"])
+folderdelete_router = APIRouter(prefix="/delete_folder", tags=["Delete Folder"])
 
 # configuration load
 loadconf = config.Configuration()
@@ -45,6 +47,7 @@ async def create_folder(
 
     fullpath = os.path.join(publishfolder, foldername)
     if os.path.exists(fullpath):
+        print("This folder is avaliable")
         return {"status": False, "details": "This folder is avaliable"}
 
     try:
@@ -55,9 +58,31 @@ async def create_folder(
         return {"status": False, "details": "Folder permissions are preventing the creation of new folder !"}
 
 
+# delete folder in publish directory
+@folderdelete_router.post("")
+async def delete_folder(
+    foldername: str = Form(...)
+):
+    if not foldername:
+        return {"status": False, "details": "Enter a folder name !"}
+
+    fullpath = os.path.join(publishfolder, foldername)
+    if not os.path.exists(fullpath):
+        print("Folder not found !")
+        return {"status": False, "details": "Folder not found !"}
+
+    try:
+        os.system(f"rm -r {fullpath}")  # remove folder
+        return {"status": True}
+    except PermissionError:
+        print("Folder permissions are preventing the folder from being deleted !")
+        return {"status": False, "details": "Folder permissions are preventing the folder from being deleted !"}
+
+
 
 # main router
 diroperations_router = APIRouter()
 diroperations_router.include_router(dirlist_router)
 diroperations_router.include_router(foldercreate_router)
+diroperations_router.include_router(folderdelete_router)
 
