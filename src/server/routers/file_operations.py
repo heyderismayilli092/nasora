@@ -1,7 +1,8 @@
 # File Operations
 # POST /download
-# POST /file_info
-# POST /file_delete
+# POST /info_file
+# POST /delete_file
+# POST /create_file
 
 
 from fastapi import APIRouter, Form
@@ -11,8 +12,8 @@ import os
 
 # endpoints
 downloadfile_router = APIRouter(prefix="/download", tags=["File Download"])
-infofile_router = APIRouter(prefix="/file_info", tags=["File Informations"])
-filedelete_router = APIRouter(prefix="/file_delete", tags=["File Delete"])
+infofile_router = APIRouter(prefix="/info_file", tags=["File Informations"])
+filedelete_router = APIRouter(prefix="/delete_file", tags=["File Delete"])
 
 # configuration load
 loadconf = config.Configuration()
