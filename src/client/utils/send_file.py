@@ -54,7 +54,7 @@ async def send_file(file_path: str, server_url: str, directory: str = "."):
 
         response.raise_for_status()
         result = response.json()
-        if not result.get("status"):
+        if response.status_code != 200:
             raise Exception(result.get("details", "Upload init failed"))
 
         upload_id = result["upload_id"]
@@ -91,7 +91,7 @@ async def send_file(file_path: str, server_url: str, directory: str = "."):
                         )
                         response.raise_for_status()
                         result = response.json()
-                        if not result.get("status"):
+                        if response.status_code != 200:
                             raise Exception("Chunk upload failed")
                         uploaded = True
                         break
@@ -113,7 +113,7 @@ async def send_file(file_path: str, server_url: str, directory: str = "."):
         response.raise_for_status()
         result = response.json()
 
-        if not result.get("status"):
+        if response.status_code != 200:
             raise Exception(result.get("details", "Upload finalization failed"))
         print("Upload completed successfully!")
         return result

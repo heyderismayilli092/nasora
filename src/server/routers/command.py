@@ -32,7 +32,7 @@ async def commandrun(
     # check folder available
     if not os.path.exists(path):
         print("Path not available !")
-         raise HTTPException(status_code=400, detail="Path not available !")
+        raise HTTPException(status_code=400, detail="Path not available !")
 
     try:
         # run command

@@ -13,6 +13,9 @@ async def command_run(comm: str, server_url: str, directory: str = "."):
     base_url = server_url.rstrip("/")
     timeout = httpx.Timeout(300.0, connect=30.0)
 
+    if not comm:
+        raise Exception("Enter a command !")
+
     print("command: ", comm)
     print("remote path: ", directory)
     async with httpx.AsyncClient(timeout=timeout) as client:
@@ -26,7 +29,7 @@ async def command_run(comm: str, server_url: str, directory: str = "."):
 
         response.raise_for_status()
         result = response.json()
-        if not result.get("status"):
+        if response.status_code != 200:
             raise Exception(result.get("details", "Command run failed"))
-        return result
+    return result
 
