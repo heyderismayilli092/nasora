@@ -5,7 +5,7 @@
 # POST /create_file
 
 
-from fastapi import APIRouter, Form
+from fastapi import APIRouter, Form, HTTPException
 from fastapi.responses import FileResponse
 from utils import config, file_info
 import os
@@ -28,13 +28,13 @@ async def downloadfile(
 ):
     # check filename
     if not filename:
-        return {"status": False, "details": "File name not provided !"}
+        raise HTTPException(status_code=404, detail="File name not provided !")
 
     filepath = os.path.join(publishfolder, filename)  # file full path
     # check file avaliable
     if not os.path.exists(filepath):
         print("File to be downloaded could not be found !")
-        return {"status": False, "details": "File to be downloaded could not be found !"}
+        raise HTTPException(status_code=404, detail="File to be downloaded could not be found !")
 
     try:
         # download
@@ -45,7 +45,7 @@ async def downloadfile(
         )
     except PermissionError:
         print("File cannot be downloaded due to permission restrictions !")
-        return {"status": False, "details": "File cannot be downloaded due to permission restrictions !"}
+        raise HTTPException(status_code=404, detail="File cannot be downloaded due to permission restrictions !")
 
 
 # file informations
@@ -56,13 +56,13 @@ async def fileinfo(
     # check filename
     if not filename:
         print("File name not provided !")
-        return {"status": False, "details": "File name not provided !"}
+        raise HTTPException(status_code=404, detail="File name not provided !")
 
     filepath = os.path.join(publishfolder, filename)  # file full path
     # check file avaliable
     if not os.path.exists(filepath):
         print("File to be downloaded could not be found !")
-        return {"status": False, "details": "File to be downloaded could not be found !"}
+        raise HTTPException(status_code=404, detail="File to be downloaded could not be found !")
 
     output = file_info.get_file_info(filepath)
     return output
@@ -76,23 +76,23 @@ async def filedelete(
     # check filename
     if not filename:
         print("File name not provided !")
-        return {"status": False, "details": "File name not provided !"}
+        raise HTTPException(status_code=404, detail="File name not provided !")
 
     filepath = os.path.join(publishfolder, filename)  # file full path
     # check file avaliable
     if not os.path.exists(filepath):
         print(f"'{filename}' not found !")
-        return {"status": False, "details": f"'{filename}' not found !"}
+        raise HTTPException(status_code=404, detail=f"'{filename}' not found !")
 
     try:
         os.remove(filepath)  # removing file
-        return {"status": True}
+        return True
     except IsADirectoryError:
         print("The item you want to delete is not a file !")
-        return {"status": False, "details": "The item you want to delete is not a file !"}
+        raise HTTPException(status_code=404, detail="The item you want to delete is not a file !")
     except PermissionError:
         print("The file cannot be deleted due to permission restrictions !")
-        return {"status": False, "details": "The file cannot be deleted due to permission restrictions !"}
+        raise HTTPException(status_code=404, detail="The file cannot be deleted due to permission restrictions !")
 
 
 
