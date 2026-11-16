@@ -52,7 +52,7 @@ async def create_folder(
 
     try:
         os.makedirs(fullpath)
-        return {"status": True}
+        return True
     except PermissionError:
         print("Folder permissions are preventing the creation of new folder !")
         raise HTTPException(status_code=404, detail="Folder permissions are preventing the creation of new folder !")
@@ -68,12 +68,11 @@ async def delete_folder(
 
     fullpath = os.path.join(publishfolder, foldername)
     if not os.path.exists(fullpath):
-        print("Folder not found !")
         raise HTTPException(status_code=404, detail="Folder not found !")
 
     try:
         os.system(f"rm -r {fullpath}")  # remove folder
-        return {"status": True}
+        return True
     except PermissionError:
         print("Folder permissions are preventing the folder from being deleted !")
         raise HTTPException(status_code=404, detail="Folder permissions are preventing the folder from being deleted !")
