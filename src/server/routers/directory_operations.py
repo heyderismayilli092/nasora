@@ -4,7 +4,7 @@
 # POST /delete_folder
 
 
-from fastapi import APIRouter, Form
+from fastapi import APIRouter, Form, HTTPException
 from utils import config
 import os
 
@@ -25,7 +25,7 @@ async def directories():
     dir_list = []
     if not os.path.exists(publishfolder):
         print("The folder you are looking for could not be found !")
-        return {"status": False, "details": "The folder you are looking for could not be found !"}
+        raise HTTPException(status_code=404, detail="The folder you are looking for could not be found !")
     else:
         try:
             for lst in os.listdir(publishfolder):
@@ -34,7 +34,7 @@ async def directories():
 
         except PermissionError:
             print("Folder permissions prevent viewing the content !")
-            return {"status": False, "details": "Folder permissions prevent viewing the content !"}
+            raise HTTPException(status_code=404, detail="Folder permissions prevent viewing the content !")
 
 
 # create folder in publish directory
@@ -43,19 +43,19 @@ async def create_folder(
     foldername: str = Form(...)
 ):
     if not foldername:
-        return {"status": False, "details": "Enter a folder name !"}
+        raise HTTPException(status_code=404, detail="Enter a folder name !")
 
     fullpath = os.path.join(publishfolder, foldername)
     if os.path.exists(fullpath):
         print("This folder is avaliable")
-        return {"status": False, "details": "This folder is avaliable"}
+        raise HTTPException(status_code=404, detail="This folder is avaliable")
 
     try:
         os.makedirs(fullpath)
         return {"status": True}
     except PermissionError:
         print("Folder permissions are preventing the creation of new folder !")
-        return {"status": False, "details": "Folder permissions are preventing the creation of new folder !"}
+        raise HTTPException(status_code=404, detail="Folder permissions are preventing the creation of new folder !")
 
 
 # delete folder in publish directory
@@ -64,19 +64,19 @@ async def delete_folder(
     foldername: str = Form(...)
 ):
     if not foldername:
-        return {"status": False, "details": "Enter a folder name !"}
+        raise HTTPException(status_code=404, detail="Enter a folder name !")
 
     fullpath = os.path.join(publishfolder, foldername)
     if not os.path.exists(fullpath):
         print("Folder not found !")
-        return {"status": False, "details": "Folder not found !"}
+        raise HTTPException(status_code=404, detail="Folder not found !")
 
     try:
         os.system(f"rm -r {fullpath}")  # remove folder
         return {"status": True}
     except PermissionError:
         print("Folder permissions are preventing the folder from being deleted !")
-        return {"status": False, "details": "Folder permissions are preventing the folder from being deleted !"}
+        raise HTTPException(status_code=404, detail="Folder permissions are preventing the folder from being deleted !")
 
 
 

@@ -151,7 +151,7 @@ async def upload_init(
             ):
                 part_path = get_part_path(old)
                 if part_path.is_file():
-                    return {"status": True, "upload_id": old["upload_id"], "total_chunks": old["total_chunks"], "details": "Existing upload session found"}
+                    return {"upload_id": old["upload_id"], "total_chunks": old["total_chunks"], "details": "Existing upload session found"}
 
         except (KeyError, ValueError, OSError):
             continue
@@ -182,7 +182,7 @@ async def upload_init(
         f.flush()
         os.fsync(f.fileno())
 
-    return {"status": True, "upload_id": upload_id, "total_chunks": metadata["total_chunks"], "details": "Upload initialized"}
+    return {"upload_id": upload_id, "total_chunks": metadata["total_chunks"], "details": "Upload initialized"}
 
 
 # upload status
@@ -193,7 +193,7 @@ async def upload_status(
     metadata = read_metadata(upload_id)
     received = set(metadata["received_chunks"])
     missing = [i for i in range(metadata["total_chunks"]) if i not in received]
-    return {"status": True, "upload_id": upload_id, "upload_status": metadata["status"], "total_chunks": metadata["total_chunks"], "received_chunks": sorted(received), "missing_chunks": missing}
+    return {"upload_id": upload_id, "upload_status": metadata["status"], "total_chunks": metadata["total_chunks"], "received_chunks": sorted(received), "missing_chunks": missing}
 
 
 # receive chunk
@@ -244,7 +244,7 @@ async def upload_chunk(
         metadata["received_chunks"] = sorted(received)
 
         write_metadata(upload_id, metadata)
-        return {"status": True, "chunk_index": chunk_index, "received": len(received), "total_chunks": total_chunks}
+        return {"chunk_index": chunk_index, "received": len(received), "total_chunks": total_chunks}
 
 
 # finalize upload
@@ -256,14 +256,14 @@ async def upload_finalize(
     async with lock:
         metadata = read_metadata(upload_id)
         if metadata["status"] == "completed":
-            return {"status": True, "details": "Upload already completed"}
+            return "Upload already completed"
 
         received = set(metadata["received_chunks"])
         expected = set(range(metadata["total_chunks"]))
 
         if received != expected:
             missing = sorted(expected - received)
-            return {"status": False, "details": "Upload is incomplete", "missing_chunks": missing}
+            raise HTTPException(404, detail={"detail": "Upload is incomplete", "missing_chunks": missing})
 
         part_path = get_part_path(metadata)
 
@@ -300,5 +300,5 @@ async def upload_finalize(
         shutil.rmtree(session_dir, ignore_errors=True)
         upload_locks.pop(upload_id, None)
 
-        return {"status": True, "details": "Upload completed successfully", "filename": metadata["filename"], "filesize": metadata["filesize"], "sha256": actual_hash}
+        return {"details": "Upload completed successfully", "filename": metadata["filename"], "filesize": metadata["filesize"], "sha256": actual_hash}
 
