@@ -24,13 +24,14 @@ publishfolder = output["publish-path"]
 # file download
 @downloadfile_router.post("")
 async def downloadfile(
-    filename: str = Form(...)
+    fullpath: str = Form(...)
 ):
     # check filename
-    if not filename:
-        raise HTTPException(status_code=404, detail="File name not provided !")
+    if not fullpath:
+        raise HTTPException(status_code=404, detail="File path not provided !")
 
-    filepath = os.path.join(publishfolder, filename)  # file full path
+    filepath = os.path.join(publishfolder, fullpath)  # file full path
+    filename = os.path.basename(fullpath)
     # check file avaliable
     if not os.path.exists(filepath):
         print("File to be downloaded could not be found !")
