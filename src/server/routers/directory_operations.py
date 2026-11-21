@@ -5,13 +5,14 @@
 
 
 from fastapi import APIRouter, Form, HTTPException
-from utils import config
+from utils import config, folder_info
 import os
 
 # endpoints
 dirlist_router = APIRouter(prefix="/directory_list", tags=["Directory List"])
 foldercreate_router = APIRouter(prefix="/create_folder", tags=["Create Folder"])
 folderdelete_router = APIRouter(prefix="/delete_folder", tags=["Delete Folder"])
+folderinfo_router = APIRouter(prefix="/info_folder", tags=["Folder Informations"])
 
 # configuration load
 loadconf = config.Configuration()
@@ -78,10 +79,27 @@ async def delete_folder(
         raise HTTPException(status_code=404, detail="Folder permissions are preventing the folder from being deleted !")
 
 
+# retrieve folder information in publish directory
+@folderinfo_router.post("")
+async def info_folder(
+    path: str = Form(...)
+):
+    if not path:
+        fullpath = os.path.join(publishfolder, ".")
+
+    fullpath = os.path.join(publishfolder, path)
+    if not os.path.exists(fullpath):
+        raise HTTPException(status_code=404, detail="Folder not found !")
+
+    output = folder_info.get_folder_info(fullpath)
+    return output
+
+
 
 # main router
 diroperations_router = APIRouter()
 diroperations_router.include_router(dirlist_router)
 diroperations_router.include_router(foldercreate_router)
 diroperations_router.include_router(folderdelete_router)
+diroperations_router.include_router(folderinfo_router)
 

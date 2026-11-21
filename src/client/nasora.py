@@ -4,10 +4,10 @@ from utils.command_run import command_run as _async_commrun
 from utils.directory_ops import directory_list as _async_dirlist
 from utils.directory_ops import create_folder as _async_createfolder
 from utils.directory_ops import delete_folder as _async_deletefolder
+from utils.directory_ops import info_folder as _async_infofolder
 from utils.file_ops import download as _async_filedownload
 from utils.file_ops import info_file as _async_infofile
 from utils.file_ops import delete_file as _async_deletefile
-
 
 # file selected by the user are being sent to the selected server
 def send_file(filename: str, remotepath: str, ipaddr: str):
@@ -130,3 +130,19 @@ def delete_file(path: str, filename: str, ipaddr: str):
         return e
     except Exception as e:
         return e
+
+
+# displays information about shared folders or subfolders
+def info_folder(path: str, ipaddr: str):
+    try:
+        return asyncio.run(
+           _async_infofolder(
+                path=path,
+                server_url=f"http://{ipaddr}:2215/"
+            )
+        )
+    except FileNotFoundError as e:
+        return e
+    except Exception as e:
+        return e
+

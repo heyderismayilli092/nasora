@@ -60,3 +60,21 @@ async def delete_folder(foldername: str, server_url: str):
         else:
             return result
 
+
+# displays information about the general folder or subfolders
+async def info_folder(path: str, server_url: str):
+    base_url = server_url.rstrip("/")
+    timeout = httpx.Timeout(300.0, connect=30.0)
+
+    async with httpx.AsyncClient(timeout=timeout) as client:
+        response = await client.post(
+            f"{base_url}/info_folder",
+            data={"path": path}
+        )
+
+        result = response.json()
+        if response.status_code != 200:
+            raise Exception(result.get("details", "Folder information could not be retrieved !"))
+
+    return result
+
