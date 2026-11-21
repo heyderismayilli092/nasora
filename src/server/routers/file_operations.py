@@ -26,7 +26,7 @@ publishfolder = output["publish-path"]
 async def downloadfile(
     fullpath: str = Form(...)
 ):
-    # check filename
+    # check file availability
     if not fullpath:
         raise HTTPException(status_code=404, detail="File path not provided !")
 
@@ -52,18 +52,17 @@ async def downloadfile(
 # file informations
 @infofile_router.post("")
 async def fileinfo(
-    filename: str = Form(...)
+    fullpath: str = Form(...)
 ):
-    # check filename
-    if not filename:
-        print("File name not provided !")
-        raise HTTPException(status_code=404, detail="File name not provided !")
+    # check file availability
+    if not fullpath:
+        raise HTTPException(status_code=404, detail="File path not provided !")
 
-    filepath = os.path.join(publishfolder, filename)  # file full path
+    filepath = os.path.join(publishfolder, fullpath)  # file full path
     # check file avaliable
     if not os.path.exists(filepath):
-        print("File to be downloaded could not be found !")
-        raise HTTPException(status_code=404, detail="File to be downloaded could not be found !")
+        print("File not avaliable !")
+        raise HTTPException(status_code=404, detail="File not avaliable !")
 
     output = file_info.get_file_info(filepath)
     return output
