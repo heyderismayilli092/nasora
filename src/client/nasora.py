@@ -6,6 +6,7 @@ from utils.directory_ops import create_folder as _async_createfolder
 from utils.directory_ops import delete_folder as _async_deletefolder
 from utils.file_ops import download as _async_filedownload
 from utils.file_ops import info_file as _async_infofile
+from utils.file_ops import delete_file as _async_deletefile
 
 
 # file selected by the user are being sent to the selected server
@@ -114,3 +115,18 @@ def info_file(path: str, filename: str, ipaddr: str):
     except Exception as e:
         return e
 
+
+# delete file in shared folder
+def delete_file(path: str, filename: str, ipaddr: str):
+    try:
+        return asyncio.run(
+           _async_deletefile(
+                path=path,
+                filename=filename,
+                server_url=f"http://{ipaddr}:2215/"
+            )
+        )
+    except FileNotFoundError as e:
+        return e
+    except Exception as e:
+        return e

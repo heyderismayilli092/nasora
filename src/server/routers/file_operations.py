@@ -56,13 +56,16 @@ async def fileinfo(
 ):
     # check file availability
     if not fullpath:
+        print("File path not provided !")
         raise HTTPException(status_code=404, detail="File path not provided !")
 
     filepath = os.path.join(publishfolder, fullpath)  # file full path
+    filename = os.path.basename(fullpath)
+
     # check file avaliable
     if not os.path.exists(filepath):
-        print("File not avaliable !")
-        raise HTTPException(status_code=404, detail="File not avaliable !")
+        print(f"'{filename}' not found !")
+        raise HTTPException(status_code=404, detail=f"'{filename}' not found !")
 
     output = file_info.get_file_info(filepath)
     return output
@@ -71,14 +74,15 @@ async def fileinfo(
 # file delete
 @filedelete_router.post("")
 async def filedelete(
-    filename: str = Form(...)
+    fullpath: str = Form(...)
 ):
-    # check filename
-    if not filename:
-        print("File name not provided !")
-        raise HTTPException(status_code=404, detail="File name not provided !")
+    # check check file availability
+    if not fullpath:
+        print("File path not provided !")
+        raise HTTPException(status_code=404, detail="File path not provided !")
 
-    filepath = os.path.join(publishfolder, filename)  # file full path
+    filepath = os.path.join(publishfolder, fullpath)  # file full path
+    filename = os.path.basename(fullpath)
     # check file avaliable
     if not os.path.exists(filepath):
         print(f"'{filename}' not found !")
