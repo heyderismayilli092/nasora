@@ -22,10 +22,10 @@ class Configuration:
         publish_path = data["nasora"]["publish_path"]
         # check server name
         if len(server_name) == 0:
-            return {"status": False, "details": "Server name not entered !"}
+            return {"status": False, "details": "Server name not entered ! Please fill out the '/usr/share/nasora/config.json' file appropriately !"}
         # check publishing path
         if len(publish_path) == 0:
-            return {"status": False, "details": "The path for the folder to be published has not been entered !"}
+            return {"status": False, "details": "The path for the folder to be published has not been entered ! Please fill out the '/usr/share/nasora/config.json' file appropriately !"}
         if not os.path.exists(publish_path):
             return {"status": False, "details": "The path for the folder to be published does not exist !"}
         if not os.path.isdir(publish_path):
