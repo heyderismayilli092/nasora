@@ -8,5 +8,5 @@ Homepage: https://github.com/heyderismayilli092/nasora
 
 Package: nasora
 Architecture: all
-Depends: libgtk-4-dev, gir1.2-gtk-4.0, python3-gi
+Depends: uvicorn, python3-fastapi
 Description: A lightweight FastAPI-based NAS file management API with a Python SDK for remote file transfers and storage operations
