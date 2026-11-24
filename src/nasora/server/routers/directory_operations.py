@@ -21,15 +21,21 @@ publishfolder = output["publish-path"]
 
 
 # directory list
-@dirlist_router.get('/')
-async def directories():
+@dirlist_router.post('/')
+async def directories(
+    foldername: str = Form(...)
+):
+    if not foldername:
+        raise HTTPException(status_code=404, detail="Enter a folder name !")
+
+    fullpath = os.path.join(publishfolder, foldername)
     dir_list = []
-    if not os.path.exists(publishfolder):
+    if not os.path.exists(fullpath):
         print("The folder you are looking for could not be found !")
         raise HTTPException(status_code=404, detail="The folder you are looking for could not be found !")
     else:
         try:
-            for lst in os.listdir(publishfolder):
+            for lst in os.listdir(fullpath):
                 dir_list.append(lst)
             return {"directory_list": dir_list}
 

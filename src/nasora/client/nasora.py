@@ -9,6 +9,7 @@ from nasora.client.utils.file_ops import download as _async_filedownload
 from nasora.client.utils.file_ops import info_file as _async_infofile
 from nasora.client.utils.file_ops import delete_file as _async_deletefile
 
+
 # file selected by the user are being sent to the selected server
 def send_file(filename: str, remotepath: str, ipaddr: str):
     try:
@@ -42,10 +43,13 @@ def command(comm: str, remotepath: str, ipaddr: str):
 
 
 # shared folder is being listed
-def directory_list(ipaddr: str):
+def directory_list(foldername: str, ipaddr: str):
     try:
         return asyncio.run(
-            _async_dirlist(server_url=f"http://{ipaddr}:2215/")
+            _async_dirlist(
+                foldername=foldername,
+                server_url=f"http://{ipaddr}:2215/"
+            )
         )
     except FileNotFoundError as e:
         return e

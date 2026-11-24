@@ -5,13 +5,15 @@ from pathlib import Path
 
 
 # lists the publish folder
-async def directory_list(server_url: str):
+async def directory_list(foldername: str, server_url: str):
     base_url = server_url.rstrip("/")
     timeout = httpx.Timeout(300.0, connect=30.0)
 
     async with httpx.AsyncClient(timeout=timeout) as client:
-        response = await client.get(f"{base_url}/directory_list/")
-        response.raise_for_status()
+        response = await client.post(
+            f"{base_url}/directory_list",
+            data={"foldername": foldername}
+        )
         result = response.json()
 
         if response.status_code != 200:
@@ -31,7 +33,6 @@ async def create_folder(foldername: str, server_url: str):
             f"{base_url}/create_folder",
             data={"foldername": foldername}
         )
-        response.raise_for_status()
         result = response.json()
 
         if response.status_code != 200:
@@ -51,7 +52,6 @@ async def delete_folder(foldername: str, server_url: str):
             f"{base_url}/delete_folder",
             data={"foldername": foldername}
         )
-        response.raise_for_status()
         result = response.json()
 
         if response.status_code != 200:
