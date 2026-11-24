@@ -21,7 +21,7 @@ publishfolder = output["publish-path"]
 
 
 # directory list
-@dirlist_router.post('/')
+@dirlist_router.post("")
 async def directories(
     foldername: str = Form(...)
 ):
