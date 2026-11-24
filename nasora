@@ -1,2 +1,23 @@
-#!/bin/bash
-cd 
+#!/usr/bin/env python3
+
+import subprocess
+import socket
+
+# retrieve active interface ip
+def get_active_ip():
+    try:
+        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        s.connect(("8.8.8.8", 80))
+        ip = s.getsockname()[0]
+        s.close()
+        return ip
+    except OSError:
+        return "127.0.0.1"
+
+
+try:
+    hostip = get_active_ip()
+    subprocess.run(["uvicorn", "nasora.server.main:app", "--reload", "--host", hostip, "--port", 2215])
+except KeyboardInterrupt:
+    print("Stopped nasora server")
+
