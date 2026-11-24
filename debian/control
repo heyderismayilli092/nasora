@@ -1,0 +1,12 @@
+Source: nasora
+Section: x11
+Priority: optional
+Maintainer: Heydar Ismayilli <heyderismayilli092@gmail.com>
+Build-Depends: debhelper-compat (= 13), dh-python, python3-all, python3-setuptools
+Standards-Version: 0.0.1
+Homepage: https://github.com/heyderismayilli092/nasora
+
+Package: nasora
+Architecture: all
+Depends: libgtk-4-dev, gir1.2-gtk-4.0, python3-gi
+Description: A lightweight FastAPI-based NAS file management API with a Python SDK for remote file transfers and storage operations
