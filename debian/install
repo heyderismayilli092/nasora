@@ -1,2 +1,2 @@
-src/server/config.json /usr/share/nasora
+src/nasora/server/config.json /usr/share/nasora
 nasora /usr/bin
