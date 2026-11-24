@@ -6,7 +6,7 @@ import asyncio
 import shutil
 from pathlib import Path
 from fastapi import APIRouter, UploadFile, File, Form, HTTPException
-from utils import config
+from nasora.server.utils import config
 
 upload_router = APIRouter(prefix="/upload", tags=["Upload"])
 

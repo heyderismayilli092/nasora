@@ -2,8 +2,8 @@
 # 0.0.1
 
 from fastapi import FastAPI
-from utils import config
-from routers import api_router
+from nasora.server.utils import config
+from nasora.server.routers import api_router
 import sys
 
 title='nasora'

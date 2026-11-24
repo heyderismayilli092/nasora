@@ -1,11 +1,11 @@
 from fastapi import APIRouter
 
 # all routers are being imported
-from .directory_operations import diroperations_router
-from .file_operations import fileoperations_router
-from .command import commrun_router
-from .upload import upload_router
-from .serverinfo import serverinfo_router
+from nasora.server.routers.directory_operations import diroperations_router
+from nasora.server.routers.file_operations import fileoperations_router
+from nasora.server.routers.command import commrun_router
+from nasora.server.routers.upload import upload_router
+from nasora.server.routers.serverinfo import serverinfo_router
 
 # main router
 api_router = APIRouter()

@@ -3,7 +3,7 @@
 import json
 import os
 
-config_file = "config.json"
+config_file = "/usr/share/nasora/config.json"
 
 class Configuration:
     # configuration file load

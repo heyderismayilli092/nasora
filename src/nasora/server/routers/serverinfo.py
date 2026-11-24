@@ -3,7 +3,7 @@
 
 
 from fastapi import APIRouter, Form, HTTPException
-from utils import config
+from nasora.server.utils import config
 import os
 import subprocess
 

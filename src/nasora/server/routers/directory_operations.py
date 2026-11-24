@@ -5,7 +5,7 @@
 
 
 from fastapi import APIRouter, Form, HTTPException
-from utils import config, folder_info
+from nasora.server.utils import config, folder_info
 import os
 
 # endpoints

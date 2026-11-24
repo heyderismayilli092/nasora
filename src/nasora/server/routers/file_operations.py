@@ -7,7 +7,7 @@
 
 from fastapi import APIRouter, Form, HTTPException
 from fastapi.responses import FileResponse
-from utils import config, file_info
+from nasora.server.utils import config, file_info
 import os
 
 # endpoints

@@ -1,13 +1,13 @@
 import asyncio
-from utils.send_file import send_file as _async_send_file
-from utils.command_run import command_run as _async_commrun
-from utils.directory_ops import directory_list as _async_dirlist
-from utils.directory_ops import create_folder as _async_createfolder
-from utils.directory_ops import delete_folder as _async_deletefolder
-from utils.directory_ops import info_folder as _async_infofolder
-from utils.file_ops import download as _async_filedownload
-from utils.file_ops import info_file as _async_infofile
-from utils.file_ops import delete_file as _async_deletefile
+from nasora.client.utils.send_file import send_file as _async_send_file
+from nasora.client.utils.command_run import command_run as _async_commrun
+from nasora.client.utils.directory_ops import directory_list as _async_dirlist
+from nasora.client.utils.directory_ops import create_folder as _async_createfolder
+from nasora.client.utils.directory_ops import delete_folder as _async_deletefolder
+from nasora.client.utils.directory_ops import info_folder as _async_infofolder
+from nasora.client.utils.file_ops import download as _async_filedownload
+from nasora.client.utils.file_ops import info_file as _async_infofile
+from nasora.client.utils.file_ops import delete_file as _async_deletefile
 
 # file selected by the user are being sent to the selected server
 def send_file(filename: str, remotepath: str, ipaddr: str):
