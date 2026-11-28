@@ -8,6 +8,7 @@ from nasora.client.utils.directory_ops import info_folder as _async_infofolder
 from nasora.client.utils.file_ops import download as _async_filedownload
 from nasora.client.utils.file_ops import info_file as _async_infofile
 from nasora.client.utils.file_ops import delete_file as _async_deletefile
+from nasora.client.utils.serverinfo import serverinfo as _async_serverinfo
 
 
 # file selected by the user are being sent to the selected server
@@ -142,6 +143,20 @@ def info_folder(path: str, ipaddr: str):
         return asyncio.run(
            _async_infofolder(
                 path=path,
+                server_url=f"http://{ipaddr}:2215/"
+            )
+        )
+    except FileNotFoundError as e:
+        return e
+    except Exception as e:
+        return e
+
+
+# displays server information
+def server_info(ipaddr: str):
+    try:
+        return asyncio.run(
+           _async_serverinfo(
                 server_url=f"http://{ipaddr}:2215/"
             )
         )
