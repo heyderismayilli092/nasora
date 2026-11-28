@@ -52,7 +52,6 @@ async def send_file(file_path: str, server_url: str, directory: str = "."):
             }
         )
 
-        response.raise_for_status()
         result = response.json()
         if response.status_code != 200:
             raise Exception(result.get("details", "Upload init failed"))
@@ -65,7 +64,6 @@ async def send_file(file_path: str, server_url: str, directory: str = "."):
 
         # get upload status
         response = await client.post(f"{base_url}/upload/status", data={"upload_id": upload_id})
-        response.raise_for_status()
         result = response.json()
         missing_chunks = result["missing_chunks"]
         print(f"remaining chunks: {len(missing_chunks)}")
@@ -89,7 +87,6 @@ async def send_file(file_path: str, server_url: str, directory: str = "."):
                             },
                             files={"chunk_data": (filename, chunk, "application/octet-stream")}
                         )
-                        response.raise_for_status()
                         result = response.json()
                         if response.status_code != 200:
                             raise Exception("Chunk upload failed")

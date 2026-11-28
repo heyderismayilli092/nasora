@@ -300,5 +300,5 @@ async def upload_finalize(
         shutil.rmtree(session_dir, ignore_errors=True)
         upload_locks.pop(upload_id, None)
 
-        return {"details": "Upload completed successfully", "filename": metadata["filename"], "filesize": metadata["filesize"], "sha256": actual_hash}
+        return {"details": "successfully", "filename": metadata["filename"], "filesize": metadata["filesize"], "sha256": actual_hash}
 
