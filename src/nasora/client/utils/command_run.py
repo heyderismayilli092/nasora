@@ -29,6 +29,6 @@ async def command_run(comm: str, server_url: str, directory: str = "."):
 
         result = response.json()
         if response.status_code != 200:
-            raise Exception(result.get("details", "Command run failed"))
+            raise Exception(result.get("details", result))
     return result
 
