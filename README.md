@@ -48,16 +48,9 @@ All functions are accessed through the `nasora` module.
 | `nasora.info_file(remotepath, filename, ipaddr)` | Retrieves information about a remote file. |
 | `nasora.delete_file(remotepath, filename, ipaddr)` | Deletes a file from the specified remote directory. |
 | `nasora.info_folder(remotepath, ipaddr)` | Retrieves information about a remote directory. |
+| `nasora.server_info(ipaddr)` | Retrieves server information. |
 
 ## Remote Path Usage
-
-Nasora uses the `remotepath` parameter to specify the location within the shared directory.
-
-The following conventions apply:
-
-- `.` represents the root directory of the shared folder.
-- Relative paths represent subdirectories inside the shared folder.
-- You do not need to provide the absolute filesystem path of the server.
 
 For example:
 
@@ -160,3 +153,4 @@ print(info)
 ---
 
 **Nasora — Simple remote directory management through Python.**
+
